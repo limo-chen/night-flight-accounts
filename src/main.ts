@@ -6,7 +6,7 @@ import { history } from './shared/history';
 
 
 
-const router =createRouter({
+const router = createRouter({
     history,
     routes,
   })
