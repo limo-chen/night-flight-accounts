@@ -7,7 +7,6 @@ export const App = defineComponent({
     return () => (
       <div class="page">
         <RouterView />
-        //链接展示的是welcome
       </div>
     );
   },
