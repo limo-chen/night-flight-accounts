@@ -6,7 +6,7 @@
     flex-grow: 1;
     display: flex;//调整文字和icon的位置
     flex-direction: column;
-    background: var(--welcome-card-bg);
+    background: var(--welcome-card-bg);//引用vars.scss中的代码
     border-radius: 8px;   
     padding: 16px;
     margin: 16px 16px 0; 
@@ -30,6 +30,6 @@
     }
 }
 .pig{
-    width: 128px;
-    height: 130px;
+    width: 138px;
+    height: 140px;
 }
