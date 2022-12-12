@@ -1,0 +1,35 @@
+.wrapper{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    >.card{
+    flex-grow: 1;
+    display: flex;//调整文字和icon的位置
+    flex-direction: column;
+    background: var(--welcome-card-bg);
+    border-radius: 8px;   
+    padding: 16px;
+    margin: 16px 16px 0; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;//文字居中
+    > h2{
+        margin-top: 40px;
+    }
+    }
+    >.actions{//页脚
+        display: flex;
+       justify-content: space-between;
+       align-items: center;
+       margin: 0 16px;
+       font-size: 32px;//跳过的字体设置
+       padding: 24px 0;
+       color: var(--welcome-text);//跳过的字体颜色
+       > .fake{visibility: hidden;}
+    }
+}
+.pig{
+    width: 128px;
+    height: 130px;
+}
