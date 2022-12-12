@@ -2,6 +2,7 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    padding-bottom: var(--welcome-nav-gap);
     >.card{
     flex-grow: 1;
     display: flex;//调整文字和icon的位置
@@ -19,13 +20,21 @@
     }
     }
     >.actions{//页脚
+        position: fixed;//fixed后left和bottom置于0
+        z-index:var(--z-index-bottom-nav);
+        background: var(--welcome-bg-end);
+        left: 0;
+        bottom: 0;
+        width: 100%;
         display: flex;
        justify-content: space-between;
        align-items: center;
-       margin: 0 16px;
-       font-size: 32px;//跳过的字体设置
-       padding: 24px 0;
+    //    margin: 0 16px;
+    height:var(--welcome-nav-height);
+       font-size: 26px;//跳过的字体设置
+       padding: 0 16px;// margin放过来
        color: var(--welcome-text);//跳过的字体颜色
+       padding-bottom: var(--welcome-nav-gap);
        > .fake{visibility: hidden;}
     }
 }

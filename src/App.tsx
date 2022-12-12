@@ -5,8 +5,9 @@ import "./App.scss";
 export const App = defineComponent({
   setup() {
     return () => (
-      <div>
+      <div class="page">
         <RouterView />
+        //链接展示的是welcome
       </div>
     );
   },
