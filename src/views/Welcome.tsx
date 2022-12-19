@@ -10,7 +10,7 @@ export const Welcome = defineComponent({
       <div class={s.wrapper}>
         <header>
           <img src={logo} />
-          <h1>Spend Travel</h1>
+          <h1>小飞机记账</h1>
         </header>
         <main class={s.main}>
           <RouterView />
