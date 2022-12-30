@@ -14,9 +14,7 @@ export const Icon = defineComponent({
       required: true,
     },
   },
-  inheritAttrs: false,
   setup: (props, context) => {
-    props.name;
     return () => (
       <svg class={s.icon}>
         <use xlinkHref={"#" + props.name}></use>
