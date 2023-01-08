@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite'
+import styleImport, { VantResolve } from 'vite-plugin-style-import';
 import vue from '@vitejs/plugin-vue'
 import vueJsx from "@vitejs/plugin-vue-jsx";
 // @ts-nocheck
@@ -13,5 +14,8 @@ export default defineConfig({
       mergeProps: true,
     }),
     svgstore(),
+    styleImport({
+      resolves: [VantResolve()],
+    }),
   ]
 })
