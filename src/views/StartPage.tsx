@@ -5,7 +5,7 @@ import { FloatButton } from "../shared/FloatButton";
 import { Icon } from "../shared/Icon";
 import { Navbar } from "../shared/Navbar";
 import s from "./StartPage.module.scss";
-import { Overlay } from "../shared/Overlay";
+import { Overlay, OverlayIcon } from "../shared/Overlay";
 import { RouterLink } from "vue-router";
 import { MainLayout } from "../layouts/MainLayout";
 export const StartPage = defineComponent({
@@ -17,10 +17,8 @@ export const StartPage = defineComponent({
     return () => (
       <MainLayout>
         {{
-          title: () => "山竹记账",
-          icon: () => (
-            <Icon name="menu" class={s.navIcon} onClick={onClickMenu} />
-          ),
+          title: () => "夜航记账",
+          icon: () => <OverlayIcon />,
           default: () => (
             <>
               <Center class={s.pig_wrapper}>
