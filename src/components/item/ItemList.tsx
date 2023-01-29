@@ -1,5 +1,6 @@
 import { defineComponent, PropType, reactive, ref, watchEffect } from "vue";
 import { MainLayout } from "../../layouts/MainLayout";
+import { Form, FormItem } from "../../shared/Form";
 import { Icon } from "../../shared/Icon";
 import { Tab, Tabs } from "../../shared/Tabs";
 import { Time } from "../../shared/time";
@@ -11,8 +12,8 @@ export const ItemList = defineComponent({
     const refSelected = ref("本月");
     const time = new Time();
     const customTime = reactive({
-      start: new Time(),
-      end: new Time(),
+      start: new Time().format(),
+      end: new Time().format(),
     });
     const timeList = [
       {
@@ -65,8 +66,8 @@ export const ItemList = defineComponent({
                 </Tab>
                 <Tab name="自定义时间">
                   <ItemSummary
-                    startDate={customTime.start.format()}
-                    endDate={customTime.end.format()}
+                    startDate={customTime.start}
+                    endDate={customTime.end}
                   />
                 </Tab>
               </Tabs>
@@ -74,10 +75,13 @@ export const ItemList = defineComponent({
                 <div class={s.overlay_inner}>
                   <header>请选择时间</header>
                   <main>
-                    <form>
-                      <div></div>
-                      <div></div>
-                    </form>
+                    <Form>
+                      <FormItem
+                        label="开始时间"
+                        v-model={customTime.start}
+                        type="date"
+                      />
+                    </Form>
                   </main>
                 </div>
               </Overlay>
