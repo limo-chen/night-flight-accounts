@@ -1,5 +1,6 @@
 :root {
     --amount-text:#021545;
+    --app-name-text: #7878FF;
     --bg: white;
     --button-bg-danger: #b70707;
     --button-bg:#021545;
@@ -16,14 +17,14 @@
     --error-color:#b70707;
     --float-button-bg: var(--button-bg);
     --float-button-text: white;
-    --input-border-color: #5c33be;
+    --input-border-color: #021545;
     --input-min-height: 48px;
     --input-radius: var(--button-radius);
     --input-shadow: rgba(0,0,0,0.25);
     --list-amount-text: var(--amount-text);
     --list-tag-text: #333;
     --list-time-text: var(--date-text);
-    --main: #5c33be;
+    --main: #021545;
     --navbar-bg-end: var(--welcome-bg-end);
     --navbar-bg-start: var(--welcome-bg-start);
     --navbar-text: white;
@@ -37,6 +38,7 @@
     --tabs-indicator-bg: rgba(255, 255, 255, 0.5);
     --tag-bg: #EFEFEF;
     --text: #333;
+    --text-muted: #666;
     --top-safe-area-height:24px;
     --total-bg: #252A43;
     --total-expenses: #53A867;
@@ -53,4 +55,5 @@
     --z-index-bottom-nav:8;
     --z-index-navbar: 32;
     --z-index-overlay:16;
+    --bar-bg: #CCCCCC;
   }

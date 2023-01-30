@@ -15,6 +15,8 @@ import { ItemPage } from "../views/ItemPage";
 import { Welcome } from "../views/Welcome";
 import { TagPage } from "../views/TagPage";
 import { StartPage } from "../views/StartPage";
+import { SignInPage } from "../views/SignInPage";
+import { StatisticsPage } from "../views/StatisticsPage";
 
 export const routes: RouteRecordRaw[] = [
   { path: "/", redirect: "/welcome" }, //任何人访问根目录就会到welcome
@@ -62,5 +64,13 @@ export const routes: RouteRecordRaw[] = [
       { path: "create", component: TagCreate },
       { path: ":id/edit", component: TagEdit },
     ],
+  },
+  {
+    path: "/sign_in",
+    component: SignInPage,
+  },
+  {
+    path: "/statistics",
+    component: StatisticsPage,
   },
 ];
