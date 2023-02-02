@@ -1,21 +1,23 @@
-import axios from "axios";
-import { defineComponent, PropType, reactive } from "vue";
+import axios, { AxiosResponse } from "axios";
+import { defineComponent, PropType, reactive, ref } from "vue";
 import { MainLayout } from "../layouts/MainLayout";
 import { Button } from "../shared/Button";
 import { Form, FormItem } from "../shared/Form";
+import { http } from "../shared/Http";
 import { Icon } from "../shared/Icon";
 import { validate } from "../shared/validate";
 import s from "./SignInPage.module.scss";
 export const SignInPage = defineComponent({
   setup: (props, context) => {
     const formData = reactive({
-      email: "",
+      email: "2320035651@qq.com",
       code: "",
     });
     const errors = reactive({
       email: [],
       code: [],
     });
+    const refValidationCode = ref<any>();
     const onSubmit = (e: Event) => {
       console.log("submit");
       e.preventDefault();
@@ -37,11 +39,18 @@ export const SignInPage = defineComponent({
         ])
       );
     };
+    const onError = (error: any) => {
+      if (error.response.status === 422) {
+        Object.assign(errors, error.response.data.errors);
+      }
+      throw error;
+    };
     const onClickSendValidationCode = async () => {
-      // const response = await axios.post("/api/v1/validation_codes", {
-      //   email: formData.email,
-      // });
-      // console.log(response);
+      const response = await http
+        .post("/validation_codes", { email: formData.email })
+        .catch(onError);
+      // 成功
+      refValidationCode.value.startCount();
     };
     return () => (
       <MainLayout>
@@ -51,7 +60,7 @@ export const SignInPage = defineComponent({
           default: () => (
             <div class={s.wrapper}>
               <div class={s.logo}>
-                <Icon class={s.icon} name="mangosteen" />
+                <Icon class={s.icon} name="plane" />
                 <h1 class={s.appName}>夜航记账</h1>
               </div>
               <Form onSubmit={onSubmit}>
@@ -63,10 +72,11 @@ export const SignInPage = defineComponent({
                   error={errors.email?.[0]}
                 />
                 <FormItem
+                  ref={refValidationCode}
                   label="验证码"
                   type="validationCode"
                   placeholder="请输入六位数字"
-                  countFrom={60} //三秒倒计时
+                  countFrom={1}
                   onClick={onClickSendValidationCode}
                   v-model={formData.code}
                   error={errors.code?.[0]}
