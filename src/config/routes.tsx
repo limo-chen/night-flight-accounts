@@ -11,6 +11,7 @@ import { Second } from "../components/welcome/Second";
 import { SecondActions } from "../components/welcome/SecondActions";
 import { Third } from "../components/welcome/Third";
 import { ThirdActions } from "../components/welcome/ThirdActions";
+import { http } from "../shared/Http";
 import { ItemPage } from "../views/ItemPage";
 import { Welcome } from "../views/Welcome";
 import { TagPage } from "../views/TagPage";
@@ -24,6 +25,9 @@ export const routes: RouteRecordRaw[] = [
   {
     path: "/welcome",
     component: Welcome,
+    beforeEnter: (to, from, next) => {
+      localStorage.getItem("skipFeatures") === "yes" ? next("/start") : next();
+    },
     children: [
       { path: "", redirect: "/welcome/1" },
       {
@@ -52,6 +56,12 @@ export const routes: RouteRecordRaw[] = [
   {
     path: "/items",
     component: ItemPage,
+    beforeEnter: async (to, from, next) => {
+      await http.get("/me").catch(() => {
+        next("/sign_in?return_to=" + to.path);
+      });
+      next();
+    },
     children: [
       { path: "", component: ItemList },
       { path: "create", component: ItemCreate },
