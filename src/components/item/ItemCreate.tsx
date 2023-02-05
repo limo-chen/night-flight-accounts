@@ -6,6 +6,7 @@ import { Icon } from "../../shared/Icon";
 import { Tabs, Tab } from "../../shared/Tabs";
 import { useTags } from "../../shared/useTags";
 import { InputPad } from "./InputPad";
+import { Tags } from "./Tags";
 import s from "./ItemCreate.module.scss";
 export const ItemCreate = defineComponent({
   props: {
@@ -15,28 +16,9 @@ export const ItemCreate = defineComponent({
   },
   setup: (props, context) => {
     const refKind = ref("支出");
-    const {
-      tags: expensesTags,
-      hasMore,
-      fetchTags,
-    } = useTags((page) => {
-      return http.get<Resources<Tag>>("/tags", {
-        kind: "expenses",
-        page: page + 1,
-        _mock: "tagIndex",
-      });
-    });
-    const {
-      tags: incomeTags,
-      hasMore: hasMore2,
-      fetchTags: fetchTags2,
-    } = useTags((page) => {
-      return http.get<Resources<Tag>>("/tags", {
-        kind: "income",
-        page: page + 1,
-        _mock: "tagIndex",
-      });
-    });
+    const refTagId = ref<number>();
+    const refHappenAt = ref<string>(new Date().toISOString());
+    const refAmount = ref<number>(0);
 
     return () => (
       <MainLayout class={s.layout}>
@@ -48,60 +30,18 @@ export const ItemCreate = defineComponent({
               <div class={s.wrapper}>
                 <Tabs v-model:selected={refKind.value} class={s.tabs}>
                   <Tab name="支出">
-                    <div class={s.tags_wrapper}>
-                      <div class={s.tag}>
-                        <div class={s.sign}>
-                          {" "}
-                          <Icon name="add" class={s.createTag} />
-                        </div>
-                        <div class={s.name}>新增</div>
-                      </div>
-                      {expensesTags.value.map((tag) => (
-                        <div class={[s.tag, s.selected]}>
-                          <div class={s.sign}>{tag.sign}</div>
-                          <div class={s.name}>{tag.name}</div>
-                        </div>
-                      ))}
-                    </div>
-                    <div class={s.more}>
-                      {hasMore.value ? (
-                        <Button class={s.loadMore} onClick={fetchTags}>
-                          加载更多
-                        </Button>
-                      ) : (
-                        <span class={s.noMore}>没有更多</span>
-                      )}
-                    </div>
+                    {refAmount.value}
+                    <Tags kind="expenses" v-model:selected={refTagId.value} />
                   </Tab>
                   <Tab name="收入">
-                    <div class={s.tags_wrapper}>
-                      <div class={s.tag}>
-                        <div class={s.sign}>
-                          {" "}
-                          <Icon name="add" class={s.createTag} />
-                        </div>
-                        <div class={s.name}> 新增</div>
-                      </div>
-                      {incomeTags.value.map((tag) => (
-                        <div class={[s.tag, s.selected]}>
-                          <div class={s.sign}>{tag.sign}</div>
-                          <div class={s.name}>{tag.name}</div>
-                        </div>
-                      ))}
-                    </div>
-                    <div class={s.more}>
-                      {hasMore2.value ? (
-                        <Button class={s.loadMore} onClick={fetchTags2}>
-                          加载更多
-                        </Button>
-                      ) : (
-                        <span class={s.noMore}>没有更多</span>
-                      )}
-                    </div>
+                    <Tags kind="income" v-model:selected={refTagId.value} />
                   </Tab>
                 </Tabs>
                 <div class={s.inputPad_wrapper}>
-                  <InputPad />
+                  <InputPad
+                    v-model:happenAt={refHappenAt.value}
+                    v-model:amount={refAmount.value}
+                  />
                 </div>
               </div>
             </>
