@@ -15,7 +15,6 @@ type GetConfig = Omit<AxiosRequestConfig, "params" | "url" | "method">;
 type PostConfig = Omit<AxiosRequestConfig, "url" | "data" | "method">;
 type PatchConfig = Omit<AxiosRequestConfig, "url" | "data">;
 type DeleteConfig = Omit<AxiosRequestConfig, "params">;
-
 export class Http {
   instance: AxiosInstance;
   constructor(baseURL: string) {
@@ -35,7 +34,6 @@ export class Http {
       method: "get",
     });
   }
-  // create
   post<R = unknown>(
     url: string,
     data?: Record<string, JSONValue>,
@@ -43,15 +41,13 @@ export class Http {
   ) {
     return this.instance.request<R>({ ...config, url, data, method: "post" });
   }
-  // update
   patch<R = unknown>(
     url: string,
     data?: Record<string, JSONValue>,
-    config?: Omit<AxiosRequestConfig, "url" | "data">
+    config?: PatchConfig
   ) {
     return this.instance.request<R>({ ...config, url, data, method: "patch" });
   }
-  // destroy
   delete<R = unknown>(
     url: string,
     query?: Record<string, string>,
@@ -65,7 +61,6 @@ export class Http {
     });
   }
 }
-
 const mock = (response: AxiosResponse) => {
   if (
     location.hostname !== "localhost" &&
@@ -77,10 +72,7 @@ const mock = (response: AxiosResponse) => {
   switch (response.config?.params?._mock) {
     case "tagIndex":
       [response.status, response.data] = mockTagIndex(response.config);
-      console.log("response");
-      console.log(response);
       return true;
-
     case "session":
       [response.status, response.data] = mockSession(response.config);
       return true;
@@ -94,7 +86,6 @@ const mock = (response: AxiosResponse) => {
   return false;
 };
 export const http = new Http("/api/v1");
-
 http.instance.interceptors.request.use((config) => {
   const jwt = localStorage.getItem("jwt");
   if (jwt) {
@@ -102,7 +93,6 @@ http.instance.interceptors.request.use((config) => {
   }
   return config;
 });
-
 http.instance.interceptors.response.use(
   (response) => {
     mock(response);

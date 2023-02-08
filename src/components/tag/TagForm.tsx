@@ -17,7 +17,7 @@ export const TagForm = defineComponent({
       id: undefined,
       name: "",
       sign: "",
-      kind: route.query.kind!.toString(),
+      kind: route.query.kind!.toString() as "expenses" | "income",
     });
     const errors = reactive<{ [k in keyof typeof formData]?: string[] }>({});
     const router = useRouter();
@@ -49,6 +49,8 @@ export const TagForm = defineComponent({
         await promise.catch((error) =>
           onFormError(error, (data) => Object.assign(errors, data.errors))
         );
+        console.log("formData.kind");
+        console.log(formData.kind);
         router.back();
       }
     };
@@ -59,6 +61,8 @@ export const TagForm = defineComponent({
       const response = await http.get<Resource<Tag>>(`/tags/${props.id}`, {
         _mock: "tagShow",
       });
+      console.log("response.data.resource");
+      console.log(response.data.resource);
       Object.assign(formData, response.data.resource);
     });
     return () => (
