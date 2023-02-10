@@ -1,4 +1,5 @@
-import { defineComponent, ref } from "vue";
+import { Toast } from "vant";
+import { defineComponent, onMounted, ref } from "vue";
 import { Button } from "../shared/Button";
 import { Center } from "../shared/Center";
 import { FloatButton } from "../shared/FloatButton";
@@ -8,12 +9,21 @@ import s from "./StartPage.module.scss";
 import { Overlay, OverlayIcon } from "../shared/Overlay";
 import { RouterLink } from "vue-router";
 import { MainLayout } from "../layouts/MainLayout";
+
 export const StartPage = defineComponent({
   setup: (props, context) => {
-    const refOverlayVisible = ref(false);
-    const onClickMenu = () => {
-      refOverlayVisible.value = !refOverlayVisible.value;
-    };
+    onMounted(() => {
+      // Toast.loading({
+      //   message: '加载中...',
+      //   forbidClick: true,
+      //   duration: 0
+      // });
+    });
+    // setup: (props, context) => {
+    //   const refOverlayVisible = ref(false);
+    //   const onClickMenu = () => {
+    //     refOverlayVisible.value = !refOverlayVisible.value;
+    //   };
     return () => (
       <MainLayout>
         {{
@@ -32,9 +42,6 @@ export const StartPage = defineComponent({
               <RouterLink to="/items/create">
                 <FloatButton iconName="add" />
               </RouterLink>
-              {refOverlayVisible.value && (
-                <Overlay onClose={() => (refOverlayVisible.value = false)} />
-              )}
             </>
           ),
         }}
