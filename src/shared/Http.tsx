@@ -15,7 +15,6 @@ import {
   mockTagIndex,
   mockTagShow,
 } from "../mock/mock";
-
 type GetConfig = Omit<AxiosRequestConfig, "params" | "url" | "method">;
 type PostConfig = Omit<AxiosRequestConfig, "url" | "data" | "method">;
 type PatchConfig = Omit<AxiosRequestConfig, "url" | "data">;
@@ -103,7 +102,22 @@ const mock = (response: AxiosResponse) => {
   }
   return false;
 };
-export const http = new Http("/api/v1");
+
+function isDev() {
+  if (
+    location.hostname !== "localhost" &&
+    location.hostname !== "127.0.0.1" &&
+    location.hostname !== "192.168.3.57"
+  ) {
+    return false;
+  }
+  return true;
+}
+
+export const http = new Http(
+  isDev() ? "api/v1" : "http://121.196.236.94:3000/api/v1"
+);
+
 http.instance.interceptors.request.use((config) => {
   const jwt = localStorage.getItem("jwt");
   if (jwt) {
@@ -132,7 +146,6 @@ http.instance.interceptors.response.use(
     throw error;
   }
 );
-
 http.instance.interceptors.response.use(
   (response) => {
     mock(response);
