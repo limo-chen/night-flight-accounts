@@ -1,6 +1,7 @@
 import {
   defineComponent,
   onMounted,
+  onUnmounted,
   PropType,
   reactive,
   ref,
@@ -127,7 +128,7 @@ export const ItemSummary = defineComponent({
               {itemStore.hasMore ? (
                 <Button
                   onClick={() =>
-                    itemStore.fetchItems(props.startDate, props.endDate)
+                    itemStore.fetchNextPage(props.startDate, props.endDate)
                   }
                 >
                   加载更多
