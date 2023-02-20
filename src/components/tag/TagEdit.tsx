@@ -43,7 +43,6 @@ export const TagEdit = defineComponent({
             <>
               <TagForm id={numberId} />
               <div class={s.actions}>
-                {" "}
                 <Button
                   level="danger"
                   class={s.removeTagsAndItems}
