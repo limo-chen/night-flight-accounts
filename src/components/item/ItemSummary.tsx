@@ -1,13 +1,13 @@
 import {
   defineComponent,
   onMounted,
-  onUnmounted,
   PropType,
   reactive,
   ref,
   watch,
 } from "vue";
 import { RouterLink } from "vue-router";
+import { useAfterMe } from "../../hooks/useAfterMe";
 import { Button } from "../../shared/Button";
 import { Center } from "../../shared/Center";
 import { Datetime } from "../../shared/Datetime";
@@ -15,10 +15,8 @@ import { FloatButton } from "../../shared/FloatButton";
 import { http } from "../../shared/Http";
 import { Icon } from "../../shared/Icon";
 import { Money } from "../../shared/Money";
-import { useItemStore } from "../../stores/useItemStore";
 import { useMeStore } from "../../stores/useMeStore";
 import s from "./ItemSummary.module.scss";
-import { useAfterMe } from "../../hooks/userAfterMe";
 export const ItemSummary = defineComponent({
   props: {
     startDate: {
@@ -33,20 +31,41 @@ export const ItemSummary = defineComponent({
     },
   },
   setup: (props, context) => {
-    if (!props.startDate || !props.endDate) {
-      return () => <div>请先选择时间范围</div>;
-    }
-    const itemStore = useItemStore(["items", props.startDate, props.endDate]);
-    useAfterMe(() => itemStore.fetchItems(props.startDate, props.endDate));
-
+    const items = ref<Item[]>([]);
+    const hasMore = ref(false);
+    const page = ref(0);
+    const fetchItems = async () => {
+      if (!props.startDate || !props.endDate) {
+        return;
+      }
+      const response = await http.get<Resources<Item>>(
+        "/items",
+        {
+          happen_after: props.startDate,
+          happen_before: props.endDate,
+          page: page.value + 1,
+        },
+        {
+          _mock: "itemIndex",
+          _autoLoading: true,
+        }
+      );
+      const { resources, pager } = response.data;
+      items.value?.push(...resources);
+      hasMore.value =
+        (pager.page - 1) * pager.per_page + resources.length < pager.count;
+      page.value += 1;
+    };
+    useAfterMe(fetchItems);
     watch(
       () => [props.startDate, props.endDate],
       () => {
-        itemStore.$reset();
-        itemStore.fetchItems();
+        items.value = [];
+        hasMore.value = false;
+        page.value = 0;
+        fetchItems();
       }
     );
-
     const itemsBalance = reactive({
       expenses: 0,
       income: 0,
@@ -61,6 +80,7 @@ export const ItemSummary = defineComponent({
         {
           happen_after: props.startDate,
           happen_before: props.endDate,
+          page: page.value + 1,
         },
         {
           _mock: "itemIndexBalance",
@@ -82,7 +102,7 @@ export const ItemSummary = defineComponent({
     );
     return () => (
       <div class={s.wrapper}>
-        {itemStore.items && itemStore.items.length > 0 ? (
+        {items.value && items.value.length > 0 ? (
           <>
             <ul class={s.total}>
               <li>
@@ -91,15 +111,15 @@ export const ItemSummary = defineComponent({
               </li>
               <li>
                 <span>支出</span>
-                <Money value={itemsBalance.income} />
+                <Money value={itemsBalance.expenses} />
               </li>
               <li>
                 <span>净收入</span>
-                <Money value={itemsBalance.income} />
+                <Money value={itemsBalance.balance} />
               </li>
             </ul>
             <ol class={s.list}>
-              {itemStore.items.map((item) => (
+              {items.value.map((item) => (
                 <li>
                   <div class={s.sign}>
                     <span>
@@ -119,7 +139,6 @@ export const ItemSummary = defineComponent({
                         ￥<Money value={item.amount} />
                       </span>
                     </div>
-
                     <div class={s.time}>
                       <Datetime value={item.happen_at} />
                     </div>
@@ -128,14 +147,8 @@ export const ItemSummary = defineComponent({
               ))}
             </ol>
             <div class={s.more}>
-              {itemStore.hasMore ? (
-                <Button
-                  onClick={() =>
-                    itemStore.fetchNextPage(props.startDate, props.endDate)
-                  }
-                >
-                  加载更多
-                </Button>
+              {hasMore.value ? (
+                <Button onClick={fetchItems}>加载更多</Button>
               ) : (
                 <span>没有更多</span>
               )}
