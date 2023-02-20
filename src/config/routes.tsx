@@ -12,11 +12,11 @@ import { SecondActions } from "../components/welcome/SecondActions";
 import { Third } from "../components/welcome/Third";
 import { ThirdActions } from "../components/welcome/ThirdActions";
 import { ComingSoon } from "../shared/ComingSoon";
-import { http } from "../shared/Http";
+
 import { ItemPage } from "../views/ItemPage";
 import { Welcome } from "../views/Welcome";
 import { TagPage } from "../views/TagPage";
-import { StartPage } from "../views/StartPage";
+
 import { SignInPage } from "../views/SignInPage";
 import { StatisticsPage } from "../views/StatisticsPage";
 
@@ -27,7 +27,7 @@ export const routes: RouteRecordRaw[] = [
     path: "/welcome",
     component: Welcome,
     beforeEnter: (to, from, next) => {
-      localStorage.getItem("skipFeatures") === "yes" ? next("/start") : next();
+      localStorage.getItem("skipFeatures") === "yes" ? next("/items") : next();
     },
     children: [
       { path: "", redirect: "/welcome/1" },
@@ -53,7 +53,7 @@ export const routes: RouteRecordRaw[] = [
       },
     ],
   },
-  { path: "/start", component: StartPage },
+
   {
     path: "/items",
     component: ItemPage,

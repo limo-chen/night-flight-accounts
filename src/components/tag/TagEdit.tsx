@@ -27,7 +27,7 @@ export const TagEdit = defineComponent({
         .delete(
           `/tags/${numberId}`,
           {
-            withItems: options?.withItems ? "true" : "false",
+            with_items: options?.withItems ? "true" : "false",
           },
           { _autoLoading: true }
         )
@@ -46,17 +46,10 @@ export const TagEdit = defineComponent({
                 {" "}
                 <Button
                   level="danger"
-                  class={s.removeTags}
-                  onClick={() => onDelete()}
-                >
-                  删除标签
-                </Button>
-                <Button
-                  level="danger"
                   class={s.removeTagsAndItems}
                   onClick={() => onDelete({ withItems: true })}
                 >
-                  删除标签和记账
+                  删除标签
                 </Button>
               </div>
             </>

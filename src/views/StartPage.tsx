@@ -1,29 +1,15 @@
-import { Toast } from "vant";
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent } from "vue";
 import { Button } from "../shared/Button";
 import { Center } from "../shared/Center";
 import { FloatButton } from "../shared/FloatButton";
 import { Icon } from "../shared/Icon";
-import { Navbar } from "../shared/Navbar";
+import { OverlayIcon } from "../shared/Overlay";
 import s from "./StartPage.module.scss";
-import { Overlay, OverlayIcon } from "../shared/Overlay";
 import { RouterLink } from "vue-router";
 import { MainLayout } from "../layouts/MainLayout";
 
 export const StartPage = defineComponent({
   setup: (props, context) => {
-    onMounted(() => {
-      // Toast.loading({
-      //   message: '加载中...',
-      //   forbidClick: true,
-      //   duration: 0
-      // });
-    });
-    // setup: (props, context) => {
-    //   const refOverlayVisible = ref(false);
-    //   const onClickMenu = () => {
-    //     refOverlayVisible.value = !refOverlayVisible.value;
-    //   };
     return () => (
       <MainLayout>
         {{
