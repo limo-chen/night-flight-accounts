@@ -13,6 +13,7 @@ import { PieChart } from "./PieChart";
 import { Bars } from "./Bars";
 import { http } from "../../shared/Http";
 import { Time } from "../../shared/time";
+import { BarChart } from "./BarChart";
 
 const DAY = 24 * 3600 * 1000;
 
@@ -121,7 +122,8 @@ export const Charts = defineComponent({
         />
         <LineChart data={betterData1.value} />
         <PieChart data={betterData2.value} />
-        <Bars data={betterData3.value} />
+        {/* <Bars data={betterData3.value} /> */}
+        <BarChart data={betterData3.value} />
       </div>
     );
   },
