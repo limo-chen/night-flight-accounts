@@ -12,8 +12,6 @@ import { SecondActions } from "../components/welcome/SecondActions";
 import { Third } from "../components/welcome/Third";
 import { ThirdActions } from "../components/welcome/ThirdActions";
 import { ComingSoon } from "../shared/ComingSoon";
-
-import { ItemPage } from "../views/ItemPage";
 import { Welcome } from "../views/Welcome";
 import { TagPage } from "../views/TagPage";
 
@@ -25,7 +23,7 @@ export const routes: RouteRecordRaw[] = [
 
   {
     path: "/welcome",
-    component: Welcome,
+    component: () => import("../views/Welcome"),
     beforeEnter: (to, from, next) => {
       localStorage.getItem("skipFeatures") === "yes" ? next("/items") : next();
     },
@@ -56,7 +54,7 @@ export const routes: RouteRecordRaw[] = [
 
   {
     path: "/items",
-    component: ItemPage,
+    component: () => import("../views/ItemPage"),
 
     children: [
       { path: "", component: ItemList },
@@ -65,23 +63,29 @@ export const routes: RouteRecordRaw[] = [
   },
   {
     path: "/tags",
-    component: TagPage,
+    component: () => import("../views/TagPage"),
     children: [
-      { path: "create", component: TagCreate },
-      { path: ":id/edit", component: TagEdit },
+      {
+        path: "create",
+        component: () => import("../components/tag/TagCreate"),
+      },
+      {
+        path: ":id/edit",
+        component: () => import("../components/tag/TagEdit"),
+      },
     ],
   },
   {
     path: "/sign_in",
-    component: SignInPage,
+    component: () => import("../views/SignInPage"),
   },
   {
     path: "/statistics",
-    component: StatisticsPage,
+    component: () => import("../views/StatisticsPage"),
   },
   {
     path: "/export",
-    component: ComingSoon,
+    component: () => import("../shared/ComingSoon"),
   },
   {
     path: "/notify",

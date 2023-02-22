@@ -6,9 +6,9 @@ export const Third = () => {
         <use xlinkHref="#chart"></use>
       </svg>
       <h2>
-        每日提醒
+        云备份
         <br />
-        不遗漏每一笔账单
+        再也不怕数据丢失
       </h2>
     </div>
   );

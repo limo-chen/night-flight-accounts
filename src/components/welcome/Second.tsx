@@ -8,9 +8,9 @@ export const Second: FunctionalComponent = () => {
         <use xlinkHref="#clock"></use>
       </svg>
       <h2>
-        每日提醒
+        数据可视化
         <br />
-        不遗漏每一笔账单
+        收支一目了然
       </h2>
     </div>
   );
